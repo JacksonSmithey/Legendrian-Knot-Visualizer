@@ -110,7 +110,6 @@ def LPG(form):
             #Catch and skip imaginary solutions
             flag = False
             for toople in value:
-                #toople = toople.subs({a1:ai1, a2:ai2, a3:ai3, a4:ai4, a5:ai5})
                 if('I' in str(toople)):
                     flag = True
                     break
@@ -118,49 +117,22 @@ def LPG(form):
                 break
 
             #Assign a_i Values       
-            ai1 = 1
-            ai2 = 1
-            ai3 = 1
-            ai4 = 1
-            ai5 = 1
-            if dimA >= 1:
-                ai1 = aiList[0]
-            if dimA >= 2:
-                ai2 = aiList[1]
-            if dimA >= 3:
-                ai3 = aiList[2]
-            if dimA >= 4:
-                ai4 = aiList[3]
-            if dimA >= 5:
-                ai5 = aiList[4]
+            ais = {"ai1":1, "ai2":1, "ai3":1, "ai4":1, "ai5":1}
+            for i in range(1, dimA):
+                ais[f"ai{i}"] = aiList[i]
                 
-            #Assigns e_i values and substitutes a_i values
+            #Assign e_i values and substitute a_i values
             xi = value[0]
-            ei1 = value[1]
-            ei1 = ei1.subs({a1:ai1, a2:ai2, a3:ai3, a4:ai4, a5:ai5})
-            ei2 = 1
-            ei3 = 1
-            ei4 = 1
-            ei5 = 1
-            if dimE >= 2:
-                ei2 = value[2]
-                ei2 = ei2.subs({a1:ai1, a2:ai2, a3:ai3, a4:ai4, a5:ai5})
-            if dimE >= 3:
-                ei3 = value[3]
-                ei3 = ei3.subs({a1:ai1, a2:ai2, a3:ai3, a4:ai4, a5:ai5})
-            if dimE >= 4:
-                ei4 = value[4]
-                ei4 = ei4.subs({a1:ai1, a2:ai2, a3:ai3, a4:ai4, a5:ai5})
-            if dimE >= 5:
-                ei5 = value[5]
-                ei5 = ei5.subs({a1:ai1, a2:ai2, a3:ai3, a4:ai4, a5:ai5})
+            eis = {"ei1":1, "ei2":1, "ei3":1, "ei4":1, "ei5":1}
+            for i in range(1, dimE):
+                eis[f"ei{i}"] = value[i]
+                eis[f"ei{i}"] = eis[f"ei{i}"].subs(ais)
+
             
             #substitute e_i and a_i values into dfx and f(x, e_i) for y,z coords    
-            dfxi = dfx.subs({x:xi, e1:ei1, e2:ei2, e3:ei3, e4:ei4, e5:ei5,
-                                   a1:ai1, a2:ai2, a3:ai3, a4:ai4, a5:ai5})
+            dfxi = dfx.subs({x:xi}, eis, ais)
             y = dfxi.evalf()
-            fi = f.subs({x:xi, e1:ei1, e2:ei2, e3:ei3, e4:ei4, e5:ei5,
-                               a1:ai1, a2:ai2, a3:ai3, a4:ai4, a5:ai5})
+            fi = f.subs({x:xi}, eis, ais)
             z = fi.evalf()
             x_list.append(str(xi))
             y_list.append(str(y))
@@ -172,11 +144,8 @@ def LPG(form):
                 print('solution: ', solution)
                 print('Value: ', value, type(value))
                 print('xi: ', xi, type(xi))
-                print('ei1: ', ei1, type(ei1))
-                print('ei2: ', ei2, type(ei2))
-                print('ei3: ', ei3, type(ei3))
-                print('ei4: ', ei4, type(ei4))
-                print('ei5: ', ei5, type(ei5))
+                print('ais: ', ais, type(ais))
+                print('eis: ', eis, type(eis))
                 print('dfxi: ', dfxi, type(dfxi))
                 print('y: ', y, type(y))
                 print('fi: ', fi, type(fi))
