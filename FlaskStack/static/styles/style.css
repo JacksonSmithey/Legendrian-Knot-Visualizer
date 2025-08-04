@@ -1,0 +1,190 @@
+
+
+body {
+    background-color: #a6d6ff;
+    text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+}
+nav {
+    background-color: #58d;
+    border: 2px solid #47c;
+    border-radius: 4px;
+    text-align: left;
+}
+
+h2 {
+    font-size: 140%;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    padding: 8px 60px 4px;
+    margin: 8px 0 0 0;
+}
+
+h2::after {
+    content: "";
+    display: block;
+    margin: 0 auto;
+    width: 30%;
+    border-bottom: 3px solid #47c;
+    border-radius: 4px;
+}
+
+h3 {
+    font-size: 120%;
+    text-decoration: none;
+    text-align: center;
+    overflow: hidden;
+    padding: 8px 30px 4px;
+    margin: 4px;
+}
+
+h3::after {
+  content: "";
+  display: block;
+  margin: 0 auto;
+  width: 20%;
+  border-bottom: 3px solid #47c;
+  border-radius: 4px;
+}
+
+li a {
+    display: block;
+    text-align: center;
+    font-size: 140%;
+    padding: 14px 16px;
+    color: black;
+    text-decoration: none;
+}
+ul.navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0 5px;
+    overflow: hidden;
+}
+ul.navbar li {
+    float: left;
+}
+li a:hover {
+    background-color: #47c;
+}
+ul li {
+    list-style-position: inside;
+}
+
+#a_i_table {
+    margin: 0 auto;
+    border-spacing: 0;
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+.a_i_button_div {
+    display: block;
+    margin: 5px auto;
+}
+
+button.a_i_button {
+    margin: 0 auto;
+    padding: 5px 10px;
+    display: inline;
+    background-color: #58d;
+    color: black;
+    border: 2px solid #47c;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button.a_i_button:hover {
+    background-color: #47c;
+}
+
+td {
+    margin: 0px auto;
+    padding: 3px 5px;
+    border: 1px solid black;
+    background-color: white;
+}
+
+#genFam {
+    height: 150px;
+    width: 400px;
+    padding: 0px;
+    margin: 5px;
+}
+
+div.projections {
+    display: inline-block; 
+    text-align: right;
+}
+
+div.spacer {
+    margin: 5px auto;
+}
+
+div.end_spacer {
+    margin: 5% auto;
+}
+
+.about_info {
+    text-decoration: none;
+}
+
+.info_text {
+    width: 70%;
+    margin: 0 auto;
+}
+.shortText {
+    width: 50px;
+}
+.submitButton {
+    text-align: center;
+}
+
+.submit-text {
+    color: #555;
+    margin: 0 auto;
+}
+
+input[type=text], select {
+  width: 30px;
+  margin: 4px;
+  padding: 2px;
+  display: inline-block;
+  border: 1px solid #999;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 30%;
+  margin: 20px;
+  padding: 8px;
+  background-color: #58d;
+  color: black;
+  border: 2px solid #47c;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #47c;
+}
+
+.graph {
+    width: 90%;
+    margin: 10px;
+}
+
+img.logo {
+    display: block;
+    text-align: center;
+    padding: 6px 12px;
+    color: black;
+    text-decoration: none;
+    width: 42px;
+}
+
+img {
+    width: 90%;
+}

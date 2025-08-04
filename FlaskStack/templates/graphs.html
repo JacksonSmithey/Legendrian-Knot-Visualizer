@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Graphs </title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+<script type="application/json" src="https://github.com/plotly/plotly.js/releases/tag/v3.0.1"></script>
+</head>
+
+<body>
+    <div class="inputInfo">
+        <h2>Knot Parameters</h2>
+        <ul>
+            <li>E Dimension: {{ form["eDim"] }}</li>
+            <li>A Control Variables: {{ form["aDim"] }}</li>
+            <li>Generating Family: {{ form["genFam"] }}</li>
+            <li>3d Projection: {{ form["pThree"] }}</li>
+            <li>Top (Lagrangian) Projection: {{ form["pTop"] }}</li>
+            <li>Front Projection: {{ form["pFront"] }}</li>
+        </ul>
+        <h2>Graphs</h2>
+        <div class="graph" id="plotly-graph-3d">{{ graph_json_3d | safe }}</div>
+        <div class="graph" id="plotly-graph-front">{{ graph_json_front | safe }}</div>
+        <div class="graph" id="plotly-graph-top">{{ graph_json_top | safe }}</div>
+    </div>
+</body>
+</html>

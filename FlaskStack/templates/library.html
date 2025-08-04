@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Knot Library </title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+</head>
+
+<body>
+<nav class="navbar">
+    <ul class="navbar">
+        <li><a href="/">Home</a></li>
+        <li><a href="/Library">Knot Library</a></li>
+        <li><a href="/About">About</a></li>
+    </ul>
+</nav>
+<div class="Library">
+    <h2>Knot Library</h2>
+    <p>
+        Here are examples of knots generated using this application.
+    </p>
+    <table>
+        <tr>
+            <td><img src="{{ url_for('static',filename='knots/3-unknots.jpg') }}"></td>
+            <td><img src="{{ url_for('static',filename='knots/classic-legendrian.jpg') }}"></td>
+            <td><img src="{{ url_for('static',filename='knots/Epsilon.jpg') }}"></td>
+        </tr>
+        <tr>
+            <td><img src="{{ url_for('static',filename='knots/Harmonious-Orb.jpg') }}"></td>
+            <td><img src="{{ url_for('static',filename='knots/Lips.jpg') }}"></td>
+            <td><img src="{{ url_for('static',filename='knots/Reidemeister.jpeg') }}"></td>
+        </tr>
+        <tr>
+            <td><img src="{{ url_for('static',filename='knots/Rocketship.jpg') }}"></td>
+        </tr>  
+    </table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,125 @@
+import numpy as np
+import sympy as sp
+import matplotlib.pyplot as plt
+from itertools import product
+
+def main():
+    # Dialog box for user to choose which projections to view
+    list = ['3-Dimensional (x,y,z)', 'Front (x,z)', 'Lagrangian (x,y)']
+    indx = []
+    print('Select which projection(s) you would like to view.')
+    print('Ctrl+click (PC) or Command+click (Mac) to select multiple options.')
+    print('')
+    for i, item in enumerate(list):
+        choice = input(f'{i+1}: {item} (y/n): ')
+        if choice.lower() == 'y':
+            indx.append(i + 1)
+
+    if len(indx) == 0:
+        print('No selection made. Terminating program.')
+        return
+
+    # Obtain and validate user input for variables
+    num_e = int(input('What is the dimension of E? '))
+    if not (1 <= num_e <= 5):
+        print('Value must be an integer between 1 and 5 inclusive. Terminating program.')
+        return
+
+    num_ai = int(input('Enter the number of a_i terms in your polynomial: '))
+    if num_ai < 0:
+        print('Value must be a nonnegative integer. Terminating program.')
+        return
+
+    # Declaring symbolic variables
+    a = sp.symbols('a:{}'.format(num_ai))
+    e = sp.symbols('e:{}'.format(num_e))
+    x = sp.symbols('x')
+
+    # Declaring symbolic functions and asking user to input a polynomial
+    if num_e == 1:
+        f = sp.Function('f')(x, e[0])
+    else:
+        f_args = (x,) + e[:num_e]
+        f = sp.Function('f')(*f_args)
+
+    f_expr = input('Define a polynomial using variables x, e1, ..., and coefficients/parameters a1, ..., aN (e.g. (a1-x**2)*e1 - a2*e1**3): ')
+    f_func = sp.sympify(f_expr)
+    f_subs = f_func.subs([(a[i], a[i]) for i in range(num_ai)])
+
+    # Calculating partial derivatives as symbolic functions
+    dfx = sp.diff(f_subs, x)
+    grad = sp.derive_by_array(f_subs, e)
+    grad_e = sp.derive_by_array(f_subs, e + [x])
+
+    # Calling function to get a_i values
+    ai_vals = get_range_ai(num_ai)
+
+    # Creating a tiled layout for plots
+    fig = plt.figure(figsize=(12, 8))
+    num_plots = len(indx)
+    rows = num_plots // 3 + 1 if num_plots % 3 != 0 else num_plots // 3
+    cols = 3 if num_plots >= 3 else num_plots
+
+    for k, ai in enumerate(ai_vals):
+        # Substituting values for the a_i into each function
+        dfx_subs = dfx.subs(list(zip(a, ai)))
+        f_subs = f_subs.subs(list(zip(a, ai)))
+        partial_e = grad_e.subs(list(zip(a, ai)))
+        grad_subs = grad.subs(list(zip(a, ai)))
+
+        # Solving for when the gradient of f is 0 in order to get starting points
+        zerograd = sp.nonlinsolve(grad_subs, e, dict=True)
+
+        # Extracting the x values from where the gradient is 0 and finding the max and min of those values
+        xdata = [sol[x] for sol in zerograd]
+        xmin = min(xdata) - 0.3
+        xmax = max(xdata) + 0.3
+
+        # Generating array of points where partial derivative w.r.t E is 0
+        points = []
+        for j in np.arange(xmin, xmax, 0.01):
+            Enew = partial_e.subs(x, j)
+            newpoints = sp.nonlinsolve(Enew, e, dict=True)
+            for sol in newpoints:
+                points.append((j, [sol[e[i]] for i in range(num_e)]))
+
+        points = np.array(points)
+
+        # Creating the plots
+        for i, idx in enumerate(indx):
+            ax = fig.add_subplot(rows, cols, i + 1, projection='3d' if idx == 1 else None)
+            if idx == 1:
+                ax.plot3D(points[:, 0], dfx_subs.subs([(x, points[:, 0]), (e[0], points[:, 1])]), f_subs.subs([(x, points[:, 0]), (e[0], points[:, 1])]), '.')
+                ax.set_xlabel('x')
+                ax.set_ylabel('y')
+                ax.set_zlabel('z')
+                ax.set_title(', '.join(map(str, ai)))
+            elif idx == 2:
+                ax.plot(points[:, 0], f_subs.subs([(x, points[:, 0]), (e[0], points[:, 1])]), '.')
+                ax.set_xlabel('x')
+                ax.set_ylabel('z')
+                ax.set_title(', '.join(map(str, ai)))
+            elif idx == 3:
+                ax.plot(points[:, 0], dfx_subs.subs([(x, points[:, 0]), (e[0], points[:, 1])]), '.')
+                ax.set_xlabel('x')
+                ax.set_ylabel('y')
+                ax.set_title(', '.join(map(str, ai)))
+    
+    plt.tight_layout()
+    plt.show()
+
+def get_range_ai(num_ai):
+    if num_ai > 0:
+        ranges = []
+        for k in range(num_ai):
+            min_ai = float(input(f'Input the minimum value for a{k + 1}: '))
+            max_ai = float(input(f'Input the maximum value for a{k + 1}: '))
+            inc_ai = float(input(f'Input the increment value for a{k + 1}: '))
+            ranges.append(np.arange(min_ai, max_ai + inc_ai, inc_ai))
+        ai_vals = list(product(*ranges))
+        return ai_vals
+    else:
+        return [(0,)]  # default for num_ai = 0
+
+if __name__ == '__main__':
+    main()
