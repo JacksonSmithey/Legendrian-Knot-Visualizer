@@ -28,15 +28,16 @@ check if the critical locus of f is empty or the solution set is infinite
 
 VSCode Startup Instructions for Running on Localhost
 ****************************************************
-Navigate to the FlaskStack folder. Typically "cd ./FlaskStack" from parent "LKV" directory.
 ```
-python -m flask --version //check version
+pip install flask
+cd ./FlaskStack
+python -m flask --version
 set FLASK_APP=flaskApp.py
-set FLASK_DEBUG=1
+set FLASK_DEBUG=1  //This automatically updates the webpage when source code is changed
 python -m flask run
 ```
-*******if these commands raise errors in the VSCode powershell terminal, 
-run them in a cmd prompt terminal instead and double check the filepath '/FlaskStack'*******
+**if these commands raise errors in the VSCode powershell terminal, 
+run them in a cmd prompt terminal instead and double check the filepath '/FlaskStack/'**
 
 Default development browser URL: http://127.0.0.1:5000
 
