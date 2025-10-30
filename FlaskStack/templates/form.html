@@ -64,8 +64,8 @@
     <thead>
       <tr>
         <td>Name</td>
-        <td>Begin</td>
-        <td>End</td>
+        <td>Start Value</td>
+        <td>Stop Value</td>
         <td>Increment</td>
       </tr>
     </thead>
@@ -75,7 +75,7 @@
   </table>
 
   <script>
-      /* Manage Dynamic Table for A values */
+    /* Manage Dynamic Table for A values */
     var counter = 0;
 
     function addControlRow() {
@@ -98,19 +98,23 @@
       var increment_input = document.createElement('input'); 
 
       // Set attributes for new input elements
-      begin_input.setAttribute('type', 'text'); begin_input.setAttribute('name', 'a_params[]');
-      begin_input.setAttribute('value', '0'); begin_input.setAttribute('id', `begin${counter}`);
+      begin_input.setAttribute('type', 'text'); begin_input.setAttribute('name', 'aList[]');
+      begin_input.setAttribute('value', '0'); begin_input.setAttribute('id', 'start');
 
-      end_input.setAttribute('type', 'text'); end_input.setAttribute('name', 'a_params[]');
-      end_input.setAttribute('value', '1'); end_input.setAttribute('id', `end${counter}`);
+      end_input.setAttribute('type', 'text'); end_input.setAttribute('name', 'aList[]');
+      end_input.setAttribute('value', '1'); end_input.setAttribute('id', 'stop');
 
-      increment_input.setAttribute('type', 'text'); increment_input.setAttribute('name', 'a_params[]');
-      increment_input.setAttribute('value', '1'); increment_input.setAttribute('id', `increment${counter}`);
+      increment_input.setAttribute('type', 'text'); increment_input.setAttribute('name', 'aList[]');
+      increment_input.setAttribute('value', '1'); increment_input.setAttribute('id', 'inc');
 
       // Append new input elements to the form
       a_begin.appendChild(begin_input);
       a_end.appendChild(end_input);
       a_increment.appendChild(increment_input);
+
+      // Update aDim hidden form element
+      aDim = document.getElementById("aDim")
+      aDim.setAttribute('value', counter)
     }
 
     function removeControlRow() {
