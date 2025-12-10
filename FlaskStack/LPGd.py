@@ -7,24 +7,12 @@ Created on Wed Oct 23 18:59:36 2024
 import numpy as np
 import sympy as sp
 import pandas as pd
-from itertools import combinations
-import html
-import re
+from Combinations import Combinations
+from Validation import Validate
+from TestInformation import SolutionInfo, SolutionSetInfo
 
 def LPG(form):
 
-    def Validate(form):
-        for input in form:
-            input = html.escape(input)
-            input = re.sub(r'[^a-zA-Z0-9+\-*\/\(\)\s]', '', input)
-        if int(form["eDim"][0]) not in range(1, 6):
-            raise ValueError("E-Dimension must be in the range [1,5]")
-        if len(form["aList"])//3 not in range(0, 21):
-            raise ValueError("A-Variable count may not exceed 20")
-        if len(form["genFam"]) not in range(0, 800):
-            raise ValueError("Genfam contains too many characters. To bypass, edit LPGd.py Validation().")
-        if float(form["granularity"][0]) < .0005:
-            raise ValueError("Granularity has a minimum value of .0005")
     try:
         Validate(form)
     except ValueError as e:
@@ -32,14 +20,7 @@ def LPG(form):
         return
     
     #DEMO FORM INPUT
-    #form["eDim"] = 1
-    #form["aList"] = {0, 1, 1, 1, 1.5, 0.5} #{a1_start, a1_stop, a1_increment, a2_start, a2_stop, a2_increment}       
-    #form["genFam"] = "(4-x**2)*e1-e1**3"
-    #form["pThree"] = True
-    #form["pTop"] = True
-    #form["pFront"] = True
-    #form["granularity"] = .1
-    print(form)
+    #form = {'eDim': ['1'], 'aDim': ['1'], 'aList': ['0', '1', '1'], 'genFam': ['(a1-x**2)*e1-e1**3'], 'granularity': ['0.1'], 'pThree': ['True']}
 
     #Rename commonly used vars
     dimE = int(form["eDim"][0])
@@ -54,21 +35,7 @@ def LPG(form):
     VIEW_TEST_CODE = 1
 
     #Generate combinations of a_i values
-    ai_array = []
-    for i in range(0, dimA):
-        ai_vals = []
-        ai_start = float(form["aList"][3*i])
-        ai_stop = float(form["aList"][3*i + 1])
-        ai_increment = float(form["aList"][3*i + 2])
-        while ai_start <= ai_stop:
-            ai_vals.append(ai_start)
-            ai_start += ai_increment
-        ai_array.append(ai_vals)
-    for ai_row in ai_array:
-        ai_vals.append(combinations(ai_array))
-    for p in ai_vals:
-        print(p)
-
+    aiTupleList = Combinations(form["aList"], dimA)
     
     #Declare symbolic variables and functions
     e1, e2, e3, e4, e5 = sp.symbols('e1 e2 e3 e4 e5', real = True)
@@ -104,9 +71,8 @@ def LPG(form):
         case 5: zerograd = sp.solve(GRAD_F, x, e1, e2, e3, e4, e5)
 
     #Loop over all combinations of a_i values
-    for k in range(ai_vals.shape[0]):
-        print('k:', k)
-        ais = ai_vals
+    for k in range(len(aiTupleList)):
+        ais = aiTupleList[k]
     
         #Find min and max of 0 gradient points
         xmin = float('inf')
@@ -166,27 +132,9 @@ def LPG(form):
                     
                 #Console Test Output
                 if VIEW_TEST_CODE == 1:
-                    print('solution: ', solution)
-                    print('Value: ', value, type(value))
-                    print('a start,stop,increment:', aList[i]["start"])
-                    print('xi: ', xi, type(xi))
-                    print('eis: ', eis, type(eis))
-                    print('dfxi: ', dfxi, type(dfxi))
-                    print('y: ', y, type(y))
-                    print('fi: ', fi, type(fi))
-                    print('z', z, type(z))
+                    SolutionInfo(solution, value, xi, eis, dfxi, y, fi, z)
     if VIEW_TEST_CODE == 1:
-        print('solution points:', solution_points, type(solution_points))
-        print('num e:', dimE)
-        print('num a:', dimA)
-        print('aList:', aList, type(aList))
-        print('E: ', E, type(E))
-        print('A: ', A, type(A))
-        print('f:', f, type(f))
-        print('DFE:', DFE, type(DFE))
-        print('zerograd:', zerograd, type(zerograd)) 
-        print('min_x:', xmin, type(xmin))
-        print('max_x:', xmax, type(xmax))
+        SolutionSetInfo(solution_points, dimE, dimA, aList, E, A, f, DFE, zerograd, xmin, xmax)
     
     #Create and return data frame
     data_frame = pd.DataFrame({

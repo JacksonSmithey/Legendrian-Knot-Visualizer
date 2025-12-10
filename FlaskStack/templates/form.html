@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title> Generating Family Grapher </title>
+<title> Legendrian Knot Visualizer </title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -14,16 +14,16 @@
 <body>
 <nav class="navbar">
   <ul class="navbar">
-    <li><img class="logo" src="{{ url_for('static',filename='Icon/GFG_Logo.png') }}"></li>
+    <li>LKV</li>
     <li><a href="/">Home</a></li>
     <li><a href="/Library">Knot Library</a></li>
     <li><a href="/About">About</a></li>
   </ul>
 </nav>
 
-<h2>Generating Family Grapher</h2>
+<h2>Legendrian Knot Visualizer</h2>
 <div class="info_text">
-  <p>The GFG takes generating families for Legendrian knots and plots their embeddings in \(R^3\).
+  <p>The LKV takes generating families for Legendrian knots and plots their embeddings in \(R^3\).
     A generating family is a polynomial that generates a positive dimensional system of equations
     whose critical locus generates an embedding of \(S^1\) in \(R^3\).
   </p>
@@ -41,7 +41,7 @@
     When typing your generating family, use e1,e2,... for E variables and a1,a2,... for user determined constants. 
   </p>
   <p><strong>Other Notes:</strong>
-    The GFG will attempt to plot anything, even if it's not Legendrian. 
+    The LKV will attempt to plot anything, even if it's not Legendrian. 
     Exponential functions are supported, but trig functions may not have all solutions returned.
     Multiple sets of graphs (multiple \(a\)-values) will multiply calculation times.
     If a plot has no points or the page never loads, 
@@ -98,13 +98,13 @@
       var increment_input = document.createElement('input'); 
 
       // Set attributes for new input elements
-      begin_input.setAttribute('type', 'text'); begin_input.setAttribute('name', 'aList[]');
+      begin_input.setAttribute('type', 'text'); begin_input.setAttribute('name', 'aList');
       begin_input.setAttribute('value', '0'); begin_input.setAttribute('id', 'start');
 
-      end_input.setAttribute('type', 'text'); end_input.setAttribute('name', 'aList[]');
+      end_input.setAttribute('type', 'text'); end_input.setAttribute('name', 'aList');
       end_input.setAttribute('value', '1'); end_input.setAttribute('id', 'stop');
 
-      increment_input.setAttribute('type', 'text'); increment_input.setAttribute('name', 'aList[]');
+      increment_input.setAttribute('type', 'text'); increment_input.setAttribute('name', 'aList');
       increment_input.setAttribute('value', '1'); increment_input.setAttribute('id', 'inc');
 
       // Append new input elements to the form
